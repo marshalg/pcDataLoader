@@ -18,8 +18,11 @@
 #####
 
 # load library
-import os
 import pathlib
+
+import sys
+sys.path.append('..')
+
 import pcDataLoader as pc
 
 # const
@@ -46,16 +49,3 @@ class TestPyMcdsTs(object):
         ls_mcds = mcds.read_mcds()
         assert len(ls_mcds) == 25 and \
                ls_mcds[-1].get_time() == 1440
-
-    ## resize ##
-    def test_mcds_handle_resize(self, mcds=mcds):
-        s_resize = mcds._handle_resize()
-        assert s_resize == "-resize '330!x236!'"
-
-    def test_mcds_handle_resize_1(self, mcds=mcds):
-        s_resize = mcds._handle_resize(resize_factor=1)
-        assert s_resize == "-resize '330!x236!'"
-
-    def test_mcds_handle_resize_2(self, mcds=mcds):
-        s_resize = mcds._handle_resize(resize_factor=2)
-        assert s_resize == "-resize '660!x470!'"

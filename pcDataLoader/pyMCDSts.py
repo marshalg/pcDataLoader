@@ -231,7 +231,7 @@ class pyMCDSts:
             figbgcolor = 'auto'
 
         # handle output path
-        s_path = f'{self.output_path}cell_{focus}_z{z_slice}/'
+        s_path = f'{self.output_path}/cell_{focus}_z{z_slice}/'
         if os.path.exists(s_path):
             shutil.rmtree(s_path)
 
@@ -265,7 +265,7 @@ class pyMCDSts:
         input:
             self: pyMCDSts class instance
 
-            focus: string; default is 'cell_type'
+            focus: string;
                 column name within cell dataframe.
 
             z_slice: floating point number; default is 0
@@ -345,7 +345,7 @@ class pyMCDSts:
             figbgcolor = 'auto'
 
         # handle output path
-        s_path = f'{self.output_path}substrate_{focus}_z{z_slice}/'
+        s_path = f'{self.output_path}/substrate_{focus}_z{z_slice}/'
         if os.path.exists(s_path):
             shutil.rmtree(s_path)
 

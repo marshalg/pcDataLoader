@@ -20,11 +20,13 @@
 # load library
 import os
 import pathlib
+
+import sys
+sys.path.append('..')
+
 import pcDataLoader as pc
-import time
 
 # const
-i_sleep = 7
 s_path_2d = str(pathlib.Path(pc.__file__).parent.resolve()/'data_timeseries_2d')
 
 # load physicell data time series
@@ -40,19 +42,44 @@ class TestPyMcdsTs(object):
         assert b_ok
 
     ## making movies with jpeg as interface ##
-    def test_mcds_make_movie(self, mcds=mcds):
-        # initialize
-        s_pathfile = f'{s_path_2d}/movie_jpeg.mp4'
-        if os.path.exists(s_pathfile):
-            os.remove(s_pathfile)
+    def test_mcds_make_movie_jpeg(self, mcds=mcds):
         # generate jpeg interface images
-        mcds.make_jpeg()
-        time.sleep(i_sleep)
+        mcds.make_imgcell()
+        s_path = f'{s_path_2d}/cell_cell_type_z0'
         # generate movie
-        mcds.make_movie(moviefile='movie_jpeg.mp4', )
-        assert os.path.getsize(s_pathfile) > 0
+        s_movieout = mcds.make_movie(path=s_path)
+        assert os.path.exists(s_movieout) and (os.path.getsize(s_movieout) > 0)
         # clean up
-        os.remove(s_pathfile)
-        for s_file in os.listdir(s_path_2d):
+        os.remove(s_movieout)
+        for s_file in os.listdir(s_path):
             if s_file.endswith('.jpeg'):
-                os.remove(f'{s_path_2d}/{s_file}')
+                os.remove(f'{s_path}/{s_file}')
+
+    ## making movies with png as interface ##
+    def test_mcds_make_movie_png(self, mcds=mcds):
+        # generate jpeg interface images
+        mcds.make_imgcell(ext='png')
+        s_path = f'{s_path_2d}/cell_cell_type_z0'
+        # generate movie
+        s_movieout = mcds.make_movie(path=s_path, interface='png')
+        assert os.path.exists(s_movieout) and (os.path.getsize(s_movieout) > 0)
+        # clean up
+        os.remove(s_movieout)
+        for s_file in os.listdir(s_path):
+            if s_file.endswith('.png'):
+                os.remove(f'{s_path}/{s_file}')
+
+    ## making movies with tiff as interface ##
+    def test_mcds_make_movie_tiff(self, mcds=mcds):
+        # generate jpeg interface images
+        mcds.make_imgcell(ext='tiff')
+        s_path = f'{s_path_2d}/cell_cell_type_z0'
+        # generate movie
+        s_movieout = mcds.make_movie(path=s_path, interface='tiff')
+        assert os.path.exists(s_movieout) and (os.path.getsize(s_movieout) > 0)
+        # clean up
+        os.remove(s_movieout)
+        for s_file in os.listdir(s_path):
+            if s_file.endswith('.tiff'):
+                os.remove(f'{s_path}/{s_file}')
+        os.rmdir(s_path)
